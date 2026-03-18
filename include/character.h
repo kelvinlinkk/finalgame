@@ -1,14 +1,13 @@
 #pragma once
 #ifndef CHARACTER
 #define CHARACTER
-class character
-{
-private:
+class character {
+   private:
     int hp;
     int mp;
     int atk;
 
-public:
+   public:
     character();
     character(int, int, int);
     ~character();
