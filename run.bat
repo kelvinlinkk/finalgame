@@ -1,0 +1,1 @@
+g++ -o bin\mygame.exe -g src\*.cpp -I include .\main.cpp && .\bin\mygame.exe
