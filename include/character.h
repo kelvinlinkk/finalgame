@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CHARACTER
-#define CHARACTER
+#ifndef CHARACTER_H
+#define CHARACTER_H
 class character {
    private:
     int hp;
@@ -36,4 +36,4 @@ class character {
     int cast(int);
     int attack();
 };
-#endif
+#endif 

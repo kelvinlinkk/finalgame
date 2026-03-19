@@ -5,7 +5,9 @@
 // constructors/destructors
 character::character() { setINFO(100, 100, 0); }
 character::character(int hp, int mp, int atk) { setINFO(hp, mp, atk); }
-character::~character() {}
+character::~character() {
+    std::cout<<"The great journey has eventually come to the end."<<std::endl;
+}
 
 // character status
 void character::getINFO() const {

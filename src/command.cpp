@@ -1,3 +1,5 @@
+#include "command.h"
+
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -5,9 +7,9 @@
 #include <vector>
 
 #include "character.h"
-#include "command.h"
 
 // define commands
+namespace GameSystem {
 enum class Commands {
     set,
     info,
@@ -22,11 +24,10 @@ enum class Commands {
 
 // set up mapping
 static std::map<std::string, Commands> commandMap{
-    {"set", Commands::set},        {"info", Commands::info},
-    {"heal", Commands::heal},      {"recover", Commands::recover},
-    {"hurt", Commands::hurt},      {"cast", Commands::cast},
-    {"attack", Commands::attack},  {"exit", Commands::exit},
-    {"unknown", Commands::unknown}};
+    {"set", Commands::set},       {"info", Commands::info},
+    {"heal", Commands::heal},     {"recover", Commands::recover},
+    {"hurt", Commands::hurt},     {"cast", Commands::cast},
+    {"attack", Commands::attack}, {"exit", Commands::exit}};
 
 // handling commands
 bool handlingCommand(character& c, std::string input) {
@@ -68,7 +69,9 @@ bool handlingCommand(character& c, std::string input) {
                 break;
             case Commands::unknown:
                 std::cout << "Invalid input." << std::endl;
+                break;
             default:
+                std::cout << "Invalid input." << std::endl;
                 break;
         }
     } catch (const std::out_of_range& e) {
@@ -76,3 +79,4 @@ bool handlingCommand(character& c, std::string input) {
     }
     return true;
 }
+}  // namespace GameSystem

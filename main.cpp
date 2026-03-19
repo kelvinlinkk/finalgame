@@ -8,10 +8,11 @@ using namespace std;
 
 int main() {
     string cmd = "";
-    character c;
+    character *c=new character();
 
     do {
         getline(cin, cmd);
-    } while (handlingCommand(c, cmd));
+    } while (GameSystem::handlingCommand(*c, cmd));
+    delete c;
     return 0;
 }
