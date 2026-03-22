@@ -1,4 +1,5 @@
 # A TEXT GAME?
+
 (I asked AI to generate this README.md, and I'm not sure if it's correct! XD)
 
 This project is a simple interactive C++ command-line application that simulates a game character. It allows you to initialize the character's basic stats (health, mana, and attack power) and interact with it by issuing commands such as healing, taking damage, and casting spells through standard input.
@@ -8,8 +9,11 @@ This project is a simple interactive C++ command-line application that simulates
 The project is structured into basic header and source files:
 
 - `include/character.h`: Class declaration for the `character` entity, highlighting its properties and method signatures.
-- `src/Source.cpp`: Class implementation containing the definitions of the character's behaviors and stats management.
-- `main.cpp`: The main entry point, handling the interactive console loop for character commands.
+- `include/command.h`: Header file that defines the `GameSystem` namespace and command handling function.
+- `src/character.cpp`: Class implementation containing the definitions of the character's behaviors and stats management.
+- `src/command.cpp`: Implementation of command parsing using `std::stringstream` and mapped enumeration (`std::map<std::string, Commands>`).
+- `main.cpp`: The main entry point, initializing the character dynamically (`new character()`) and running the interactive console loop.
+- `run.bat` & `run.sh`: Helper scripts for quick compilation and execution on Windows and Linux/macOS.
 
 ## Getting Started
 
@@ -17,16 +21,31 @@ The project is structured into basic header and source files:
 
 A standard C++ compiler (like GCC, Clang, or MSVC) is required to build the project.
 
-### Compilation
+### Compilation & Running
 
-From the project root directory, you can compile the application using `g++` by including the headers and source files:
+We provide convenient scripts to compile and immediately run the program. The executable is placed in the `bin/` directory.
 
-```bash
-g++ -I./include main.cpp src/Source.cpp -o finalgame
+**On Windows:**
+
+```cmd
+.\run.bat
 ```
 
-### Running
-run!
+**On Linux / macOS:**
+
+```bash
+./run.sh
+```
+
+**Manual Compilation:**
+
+If you prefer compiling manually, run:
+
+```bash
+g++ -o bin/mygame -g src/*.cpp -I include ./main.cpp
+```
+
+Then execute it via `./bin/mygame` (or `.\bin\mygame.exe` on Windows).
 
 ## Available Commands
 
@@ -64,17 +83,31 @@ When running the application, you can interact with your character using the fol
   - **Description:** Exits the application and terminates the interactive loop.
   - **Example:** `exit`
 
-## Class Structure (`character.h`)
+## Code Implementation Details & Class Structure
 
-### `character`
+### `character` (`character.h` & `character.cpp`)
+
 The core component of this project representing a game character unit.
 
-#### Attributes:
-- **`hp` (int):** Health Points.
-- **`mp` (int):** Mana Points.
-- **`atk` (int):** Attack Power.
+**Attributes:**
 
-#### Key Behaviors:
-- **Stat Management:** Uses secure setters (`setHP()`, `setMP()`, `setATK()`) to ensure stats do not dive below 0. 
-- **Verifications:** Subroutines like `hasHP()` and `hasMP()` dynamically verify the character's status before taking actions.
-- **Interactions:** Methods (`heal()`, `recover()`, `hurt()`, `attack()`, `cast()`) execute basic RPG mechanics and relay status outcomes iteratively to standard output.
+- `hp` (int): Health Points.
+- `mp` (int): Mana Points.
+- `atk` (int): Attack Power.
+
+**Key Behaviors:**
+
+- **Stat Management:** Uses secure setters (`setHP()`, `setMP()`, `setATK()`) to ensure stats (like HP/MP) do not drop below 0.
+- **Verifications:** Subroutines like `hasHP()` and `hasMP()` dynamically verify the character's status before taking actions. Actions such as `cast()` or `recover()` will fail if `!hasHP()` (Character is dead).
+- **Interactions:** Methods (`heal()`, `recover()`, `hurt()`, `attack()`, `cast()`) execute basic RPG mechanics. Note that the destructor `~character()` prints a message on cleanup.
+
+### `GameSystem` (`command.h` & `command.cpp`)
+
+- **Command Architecture:** Employs an `enum class Commands` for clear operations mapping.
+- **Input Parsing:** Unifies string parsing in `handlingCommand()` via `std::stringstream` to extract variable arguments (`std::vector<int> args`) and securely maps textual inputs to actual enum events using `std::map<std::string, Commands> commandMap`.
+- **Exception Handling:** A try-catch block (`std::out_of_range& e`) gracefully handles command arguments that are out of bounds. Unrecognized actions trigger an "Invalid input." fallback.
+
+### `main.cpp` Initialization & Loop
+
+- **Memory Management:** Dynamically allocates memory for the character (`new character()`) and cleans it up using `delete c;` to avoid memory leaks.
+- **Game Loop:** A clean `do-while` loop processes user input line by line with `std::getline()`. The loop continues until `GameSystem::handlingCommand()` returns `false` (when receiving the `exit` command).

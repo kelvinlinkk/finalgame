@@ -50,7 +50,8 @@ int character::setATK(int atk) {
 
 // basic operations
 void character::heal(int hp) {
-    setHP(getHP() + hp);
+    if(hp>=0)
+        setHP(getHP() + hp);
     std::cout << "HP:" << getHP() << std::endl;
 }
 
@@ -59,7 +60,8 @@ void character::recover(int mp) {
         std::cout << "Character is dead." << std::endl;
         return;
     } else {
-        setMP(getMP() + mp);
+        if(mp>=0)
+            setMP(getMP() + mp);
         std::cout << "MP:" << getMP() << std::endl;
     }
 }
@@ -70,7 +72,8 @@ void character::hurt(int hp) {
         return;
     }
 
-    setHP(getHP() - hp);
+    if(hp>=0)
+        setHP(getHP() - hp);
 
     if (!hasHP()) {
         std::cout << "Character is dead." << std::endl;
@@ -90,8 +93,9 @@ int character::cast(int mp) {
         std::cout << "Not enough MP." << std::endl;
         return 0;
     }
-
-    setMP(getMP() - mp);
+    
+    if(mp>=0)
+        setMP(getMP() - mp);
     std::cout << "MP:" << getMP() << std::endl;
     return getMP() * 0.5;
 }
