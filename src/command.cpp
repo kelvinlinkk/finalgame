@@ -30,11 +30,11 @@ static std::map<std::string, Commands> commandMap{
     {"attack", Commands::attack}, {"exit", Commands::exit}};
 
 // handling commands
-bool handlingCommand(character& c, std::string input) {
-    int temp;
+bool handlingCommand(Character& c, std::string input) {
+    std::string temp;
     std::stringstream ss(input);
     std::string cmd;
-    std::vector<int> args;
+    std::vector<std::string> args;
 
     ss >> cmd;
     while (ss >> temp) {
@@ -44,22 +44,22 @@ bool handlingCommand(character& c, std::string input) {
     try {
         switch (cmds) {
             case Commands::set:
-                c.setINFO(args.at(0), args.at(1), args.at(2));
+                c.setINFO(args.at(0), std::stoi(args.at(1)), std::stoi(args.at(2)),std::stoi(args.at(3)));
                 break;
             case Commands::info:
                 c.getINFO();
                 break;
             case Commands::heal:
-                c.heal(args.at(0));
+                c.heal(std::stoi(args.at(0)));
                 break;
             case Commands::recover:
-                c.recover(args.at(0));
+                c.recover(std::stoi(args.at(0)));
                 break;
             case Commands::hurt:
-                c.hurt(args.at(0));
+                c.hurt(std::stoi(args.at(0)));
                 break;
             case Commands::cast:
-                c.cast(args.at(0));
+                c.cast(std::stoi(args.at(0)));
                 break;
             case Commands::attack:
                 c.attack();

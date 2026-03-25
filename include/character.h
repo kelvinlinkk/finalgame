@@ -1,28 +1,36 @@
 #pragma once
 #ifndef CHARACTER_H
 #define CHARACTER_H
-class character {
+#include <string>
+
+#include "weapon.h"
+class Character {
    private:
     int hp;
     int mp;
     int atk;
+    std::string name;
+    Weapon* weapon;
 
    public:
-    character();
-    character(int, int, int);
-    ~character();
+    Character();
+    Character(std::string, int, int, int, Weapon&);
+    ~Character();
     // character status
+    void INFO() const;
     void getINFO() const;
-    void setINFO(int, int, int);
+    void setINFO(std::string, int, int, int);
     bool hasHP() const;
     bool hasMP() const;
 
     // get stats
+    std::string getName() const;
     int getHP() const;
     int getMP() const;
     int getATK() const;
 
     // set stats
+    std::string setName(std::string);
     int setHP(int);
     int setMP(int);
     int setATK(int);
@@ -36,4 +44,4 @@ class character {
     int cast(int);
     int attack();
 };
-#endif 
+#endif

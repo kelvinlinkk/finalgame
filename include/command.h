@@ -1,12 +1,13 @@
 #pragma once
 #ifndef COMMAND_H
 #define COMMAND_H
-#include <string>
 #include <map>
+#include <string>
+
 #include "character.h"
 
 namespace GameSystem {
-    enum class Commands;
-    bool handlingCommand(character&, std::string);
+enum class Commands;
+bool handlingCommand(Character&, std::string);
 }  // namespace GameSystem
 #endif
