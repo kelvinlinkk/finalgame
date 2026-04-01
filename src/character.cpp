@@ -72,7 +72,7 @@ int Character::setATK(int atk) {
 // basic operations
 void Character::heal(int hp) {
     if (hp >= 0) setHP(getHP() + hp);
-    std::cout << "HP:" << getHP() << std::endl;
+    std::cout << this->getName()<< " HP:" << getHP() << std::endl;
 }
 
 void Character::recover(int mp) {
@@ -81,7 +81,7 @@ void Character::recover(int mp) {
         return;
     } else {
         if (mp >= 0) setMP(getMP() + mp);
-        std::cout << "MP:" << getMP() << std::endl;
+        std::cout << this->getName()<< " MP:" << getMP() << std::endl;
     }
 }
 
@@ -96,7 +96,7 @@ void Character::hurt(int hp) {
     if (!hasHP()) {
         std::cout << this->getName()<<" is dead." << std::endl;
     } else {
-        std::cout << "HP:" << getHP() << std::endl;
+        std::cout << this->getName()<< " HP:" << getHP() << std::endl;
     }
 }
 
@@ -108,12 +108,12 @@ int Character::cast(int mp) {
     }
 
     if (getMP() < mp) {
-        std::cout << "Not enough MP." << std::endl;
+        std::cout << this->getName()<< " not enough MP." << std::endl;
         return 0;
     }
 
     if (mp >= 0) setMP(getMP() - mp);
-    std::cout << "MP:" << getMP() << std::endl;
+    std::cout << this->getName()<< " MP:" << getMP() << std::endl;
     return getMP() * 0.5;
 }
 int Character::attack() {

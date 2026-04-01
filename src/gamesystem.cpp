@@ -1,4 +1,4 @@
-#include "command.h"
+#include "gamesystem.h"
 
 #include <iostream>
 #include <map>
@@ -9,7 +9,6 @@
 #include "character.h"
 
 // define commands
-namespace GameSystem {
 enum class Commands {
     set,
     info,
@@ -30,7 +29,7 @@ static std::map<std::string, Commands> commandMap{
     {"attack", Commands::attack}, {"exit", Commands::exit}};
 
 // handling commands
-bool handlingCommand(Character& c, std::string input) {
+bool handlingCommand(Party& p, std::string input) {
     std::string temp;
     std::stringstream ss(input);
     std::string cmd;
@@ -44,25 +43,25 @@ bool handlingCommand(Character& c, std::string input) {
     try {
         switch (cmds) {
             case Commands::set:
-                c.setINFO(args.at(0), std::stoi(args.at(1)), std::stoi(args.at(2)),std::stoi(args.at(3)));
+                // p.setINFO(args.at(0), std::stoi(args.at(1)), std::stoi(args.at(2)), std::stoi(args.at(3)));
                 break;
             case Commands::info:
-                c.getINFO();
+                p.getINFO();
                 break;
             case Commands::heal:
-                c.heal(std::stoi(args.at(0)));
+                p.heal(args.at(0), std::stoi(args.at(1)));
                 break;
             case Commands::recover:
-                c.recover(std::stoi(args.at(0)));
+                p.recover(args.at(0), std::stoi(args.at(1)));
                 break;
             case Commands::hurt:
-                c.hurt(std::stoi(args.at(0)));
+                p.hurt(args.at(0), std::stoi(args.at(1)));
                 break;
             case Commands::cast:
-                c.cast(std::stoi(args.at(0)));
+                p.cast(args.at(0), std::stoi(args.at(1)));
                 break;
             case Commands::attack:
-                c.attack();
+                p.attack();
                 break;
             case Commands::exit:
                 return false;
@@ -79,4 +78,3 @@ bool handlingCommand(Character& c, std::string input) {
     }
     return true;
 }
-}  // namespace GameSystem
