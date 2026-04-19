@@ -16,15 +16,8 @@ Character::Character(std::string name, int hp, int mp, int atk,
 Character::~Character() {}
 
 // character status
-void Character::INFO() const {
-    std::cout << "character:" << getName() << std::endl;
-    std::cout << "HP:" << getHP() << std::endl;
-    std::cout << "MP:" << getMP() << std::endl;
-    std::cout << "ATK:" << getATK() << std::endl;
-    std::cout << "Weapon:" << this->weapon->getName() << std::endl;
-}
 void Character::getINFO() const {
-    std::cout << "character:" << getName() << std::endl;
+    std::cout << "Character:" << getName() << std::endl;
     std::cout << "HP:" << getHP() << std::endl;
     std::cout << "MP:" << getMP() << std::endl;
     std::cout << "ATK:" << getATK() << std::endl;

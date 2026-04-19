@@ -11,12 +11,12 @@ using namespace std;
 int main() {
     string cmd = "";
     string partyname, warriorname, fightername, magename;
-    Weapon sword("sword"),ax("axe"), staff("staff");
+    Weapon sword("sword"),axe("axe"), staff("staff");
     cout << "Create your party:" << endl;
     cin >> partyname >> warriorname >> fightername >> magename;
     
-    Character warrior(warriorname, 100, 50, 20, ax),
-        fighter(fightername, 150, 20, 30, sword),
+    Character warrior(warriorname, 100, 50, 20, sword),
+        fighter(fightername, 150, 20, 30, axe),
         mage(magename, 70, 100, 10, staff);
     Party party(partyname, warrior, fighter, mage);
     cout << "Input your action:" << endl;

@@ -5,6 +5,7 @@
 #include"party.h"
 
 void Party::getINFO() const{
+    std::cout<<"Party name:"<<this->name<<std::endl;
     warrior.getINFO();
     fighter.getINFO();
     mage.getINFO();
@@ -21,7 +22,7 @@ void Party::heal(std::string name, int num){
                 return;
             }
         }
-        std::cout<<"Invalid input"<<std::endl;
+        std::cout<<"Invalid input."<<std::endl;
     }
 };
 void Party::hurt(std::string name, int num){
@@ -51,7 +52,7 @@ void Party::recover(std::string name, int num){
                 return;
             }
         }
-        std::cout<<"Invalid input"<<std::endl;
+        std::cout<<"Invalid input."<<std::endl;
     }
 };
 void Party::cast(std::string name, int num){
@@ -66,7 +67,7 @@ void Party::cast(std::string name, int num){
                 return;
             }
         }
-        std::cout<<"Invalid input"<<std::endl;
+        std::cout<<"Invalid input."<<std::endl;
     }
 };
 
