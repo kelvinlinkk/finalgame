@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-
+#include<<memory>
 #include "weapon.h"
 
 // constructors/destructors
@@ -11,7 +11,7 @@ Character::Character()
 Character::Character(std::string name, int hp, int mp, int atk,
                      Weapon& weapon) {
     setINFO(name, hp, mp, atk);
-    this->weapon = &weapon;
+    this->weapon->std::make_unique(weapon);
 }
 Character::~Character() {}
 
