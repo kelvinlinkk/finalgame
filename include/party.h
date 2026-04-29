@@ -7,9 +7,9 @@
 class Party{
     private:
         std::string name;
-        Character& warrior, fighter, mage;    
+        std::shared_ptr<Character> warrior, fighter, mage;
     public:
-        Party(std::string name, Character& warrior, Character& fighter, Character& mage) 
+        Party(std::string name, std::shared_ptr<Character> warrior, std::shared_ptr<Character> fighter, std::shared_ptr<Character> mage) 
             :name(name), warrior(warrior),fighter(fighter), mage(mage){};
         void getINFO() const;
         void heal(std::string, int);

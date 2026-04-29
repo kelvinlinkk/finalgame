@@ -2,7 +2,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 #include <string>
-
+#include<memory>
 #include "weapon.h"
 class Character {
    private:
@@ -10,7 +10,7 @@ class Character {
     int mp;
     int atk;
     std::string name;
-    Weapon* weapon;
+    std::unique_ptr<Weapon> weapon;
 
    public:
     Character();
