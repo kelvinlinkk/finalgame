@@ -6,7 +6,29 @@
 #include <string>
 #include <vector>
 
+#include "weapon.h"
 #include "character.h"
+
+void gameManager::startGame(){
+    std::string cmd = ""
+    std::cout << "Input your action:" << std::endl;
+    std::getline(cin, cmd);
+    while (std::getline(cin, cmd)) {
+        if (!handlingCommand(party, cmd)) {
+            break;
+        }
+    }
+    return;
+}
+
+gameManager::gameManager(std::string partyname, std::string warriorname, std::string fightername, std::string magename){
+    // have not linked to class
+    Weapon sword("sword"),axe("axe"), staff("staff");
+    Character warrior(warriorname, 100, 50, 20, sword),
+        fighter(fightername, 150, 20, 30, axe),
+        mage(magename, 70, 100, 10, staff);
+    Party party(partyname, warrior, fighter, mage);
+}
 
 // define commands
 enum class Commands {

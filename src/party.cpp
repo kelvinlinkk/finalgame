@@ -10,6 +10,8 @@ void Party::getINFO() const{
     fighter.getINFO();
     mage.getINFO();
 };
+
+// rewrite entire section
 void Party::heal(std::string name, int num){
     if(name=="all"){
         for(Character* c:{&warrior, &fighter, &mage}){
