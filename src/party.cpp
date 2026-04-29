@@ -90,7 +90,7 @@ int Party::partyCast(std::string name, int num) {
 int Party::partyAttack() {
     int atk = 0;
     for (std::shared_ptr<Character> c : {warrior, fighter, mage}) {
-        atk += c->attack();
+        if (c->hasHP()) atk += c->attack();
     }
     return atk;
 }

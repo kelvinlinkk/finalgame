@@ -34,25 +34,26 @@ void gameManager::startGame() {
         std::string _;
         getline(std::cin, _);
     }
-    std::cout << "Fight start!" << std::endl ;
+    std::cout << "Fight start!" << std::endl << std::endl;
     while (!isGameover) {
         std::cout << "Round " << round << std::endl;
         enemy->getINFO();
         playerparty.getINFO();
         playerTurn();
         if (!enemy->hasHP()) {
-            std::cout << "You beat the Enemy:" << enemy->getName() <<"!";
+            std::cout << "You beat the Enemy:" << enemy->getName() <<"!"<<std::endl;
             isGameover = true;
             return;
         }
         playerparty.partyHurt("all", enemy->attack());
 
         if (!playerparty.isAlive) {
-            std::cout << "You have been defeated!" << std::endl;
+            std::cout << "You have been defeated!" <<std::endl;
             isGameover = true;
             return;
         }
         round++;
+        std::cout<<std::endl;
     }
     return;
 }
@@ -97,18 +98,16 @@ bool gameManager::handlingCommand(std::string input) {
                 playerparty.partyHurt(args.at(0), std::stoi(args.at(1)));
                 break;
             case Commands::cast:
-                enemy->hurt(
-                    playerparty.partyCast(args.at(0), std::stoi(args.at(1))));
+                    playerparty.partyCast(args.at(0), std::stoi(args.at(1)));
                 break;
             case Commands::attack:
                 enemy->hurt(playerparty.partyAttack());
                 break;
             case Commands::unknown:
                 std::cout << "Invalid input." << std::endl;
-                return false;
+                break;
             default:
                 std::cout << "Invalid input." << std::endl;
-                return false;
         }
     } catch (const std::out_of_range& e) {
         std::cout << "Invalid input." << std::endl;

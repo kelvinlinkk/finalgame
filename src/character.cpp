@@ -18,10 +18,14 @@ Character::~Character() {}
 // character status
 void Character::getINFO() const {
     std::cout << "-Character:" << getName() << std::endl;
+    if(hasHP()){   
     std::cout << "--HP:" << getHP() << std::endl;
     std::cout << "--MP:" << getMP() << std::endl;
     std::cout << "--ATK:" << getATK() << std::endl;
     std::cout << "--Weapon:" << this->weapon->getName() << std::endl;
+    }else{
+        std::cout <<"--"<< getName()<<" is dead."<<std::endl;
+    }
 }
 void Character::setINFO(std::string name, int hp, int mp, int atk) {
     setName(name);

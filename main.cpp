@@ -10,7 +10,6 @@ using namespace std;
 
 int main() {
     string partyname, warriorname, fightername, magename;
-    Weapon sword("sword"), axe("axe"), staff("staff");
     cout << "Create your party:" << endl;
     cin >> partyname >> warriorname >> fightername >> magename;
 
