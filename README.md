@@ -9,7 +9,7 @@ This project is a simple interactive C++ command-line application that simulates
 The project is structured into basic header and source files:
 
 - `include/character.h`: Class declaration for the `character` entity, highlighting its properties and method signatures.
-- `include/command.h`: Header file that defines the `GameSystem` namespace and command handling function.
+- `include/command.h`: Header file that defines the `gamemanager` namespace and command handling function.
 - `src/character.cpp`: Class implementation containing the definitions of the character's behaviors and stats management.
 - `src/command.cpp`: Implementation of command parsing using `std::stringstream` and mapped enumeration (`std::map<std::string, Commands>`).
 - `main.cpp`: The main entry point, initializing the character dynamically (`new character()`) and running the interactive console loop.
@@ -101,7 +101,7 @@ The core component of this project representing a game character unit.
 - **Verifications:** Subroutines like `hasHP()` and `hasMP()` dynamically verify the character's status before taking actions. Actions such as `cast()` or `recover()` will fail if `!hasHP()` (Character is dead).
 - **Interactions:** Methods (`heal()`, `recover()`, `hurt()`, `attack()`, `cast()`) execute basic RPG mechanics. Note that the destructor `~character()` prints a message on cleanup.
 
-### `GameSystem` (`command.h` & `command.cpp`)
+### `gamemanager` (`command.h` & `command.cpp`)
 
 - **Command Architecture:** Employs an `enum class Commands` for clear operations mapping.
 - **Input Parsing:** Unifies string parsing in `handlingCommand()` via `std::stringstream` to extract variable arguments (`std::vector<int> args`) and securely maps textual inputs to actual enum events using `std::map<std::string, Commands> commandMap`.
@@ -110,4 +110,4 @@ The core component of this project representing a game character unit.
 ### `main.cpp` Initialization & Loop
 
 - **Memory Management:** Dynamically allocates memory for the character (`new character()`) and cleans it up using `delete c;` to avoid memory leaks.
-- **Game Loop:** A clean `do-while` loop processes user input line by line with `std::getline()`. The loop continues until `GameSystem::handlingCommand()` returns `false` (when receiving the `exit` command).
+- **Game Loop:** A clean `do-while` loop processes user input line by line with `std::getline()`. The loop continues until `gamemanager::handlingCommand()` returns `false` (when receiving the `exit` command).

@@ -14,7 +14,7 @@ class Character {
 
    public:
     Character();
-    Character(std::string, int, int, int, Weapon&);
+    Character(std::string, int, int, int, std::string);
     ~Character();
     // character status
     void INFO() const;

@@ -1,57 +1,73 @@
-#include "gamesystem.h"
-
 #include <iostream>
 #include <map>
 #include <sstream>
 #include <string>
 #include <vector>
 
-#include "weapon.h"
 #include "character.h"
+#include "gamemanager.h"
+#include "weapon.h"
 
-void gameManager::startGame(){
-    std::string cmd = ""
-    std::cout << "Input your action:" << std::endl;
-    std::getline(cin, cmd);
-    while (std::getline(cin, cmd)) {
-        if (!handlingCommand(party, cmd)) {
-            break;
+// command list;
+enum class Commands { set, info, heal, recover, hurt, cast, attack, unknown };
+
+// mapping strings to commands
+static std::map<std::string, Commands> commandMap{
+    {"set", Commands::set},      {"info", Commands::info},
+    {"heal", Commands::heal},    {"recover", Commands::recover},
+    {"hurt", Commands::hurt},    {"cast", Commands::cast},
+    {"attack", Commands::attack}};
+
+gameManager::gameManager(std::string partyname, std::string warriorname,
+                         std::string fightername, std::string magename)
+    : playerparty(partyname, warriorname, fightername, magename),
+      isGameover(true) {
+    this->enemy =
+        std::make_unique<Character>("Slime", 120, 10, 40, "sticky ball");
+}
+
+// game flow
+void gameManager::startGame() {
+    int round = 1;
+    isGameover = false;
+    {
+        std::string _;
+        getline(std::cin, _);
+    }
+    std::cout << "Fight start!" << std::endl ;
+    while (!isGameover) {
+        std::cout << "Round " << round << std::endl;
+        enemy->getINFO();
+        playerparty.getINFO();
+        playerTurn();
+        if (!enemy->hasHP()) {
+            std::cout << "You beat the Enemy:" << enemy->getName() <<"!";
+            isGameover = true;
+            return;
         }
+        playerparty.partyHurt("all", enemy->attack());
+
+        if (!playerparty.isAlive) {
+            std::cout << "You have been defeated!" << std::endl;
+            isGameover = true;
+            return;
+        }
+        round++;
     }
     return;
 }
 
-gameManager::gameManager(std::string partyname, std::string warriorname, std::string fightername, std::string magename){
-    // have not linked to class
-    Weapon sword("sword"),axe("axe"), staff("staff");
-    Character warrior(warriorname, 100, 50, 20, sword),
-        fighter(fightername, 150, 20, 30, axe),
-        mage(magename, 70, 100, 10, staff);
-    Party party(partyname, warrior, fighter, mage);
+void gameManager::playerTurn() {
+    std::string cmd = "";
+    std::cout << "Input your action:" << std::endl;
+    while (getline(std::cin, cmd)) {
+        if (handlingCommand(cmd)) {
+            return;
+        }
+    }
 }
 
-// define commands
-enum class Commands {
-    set,
-    info,
-    heal,
-    recover,
-    hurt,
-    cast,
-    attack,
-    exit,
-    unknown
-};
-
-// set up mapping
-static std::map<std::string, Commands> commandMap{
-    {"set", Commands::set},       {"info", Commands::info},
-    {"heal", Commands::heal},     {"recover", Commands::recover},
-    {"hurt", Commands::hurt},     {"cast", Commands::cast},
-    {"attack", Commands::attack}, {"exit", Commands::exit}};
-
-// handling commands
-bool handlingCommand(Party& p, std::string input) {
+bool gameManager::handlingCommand(std::string input) {
     std::string temp;
     std::stringstream ss(input);
     std::string cmd;
@@ -65,35 +81,34 @@ bool handlingCommand(Party& p, std::string input) {
     try {
         switch (cmds) {
             case Commands::set:
-                // p.setINFO(args.at(0), std::stoi(args.at(1)), std::stoi(args.at(2)), std::stoi(args.at(3)));
+                // playerparty.setINFO(args.at(0), std::stoi(args.at(1)),
+                // std::stoi(args.at(2)), std::stoi(args.at(3)));
                 break;
             case Commands::info:
-                p.getINFO();
+                playerparty.getINFO();
                 break;
             case Commands::heal:
-                p.heal(args.at(0), std::stoi(args.at(1)));
+                playerparty.partyHeal(args.at(0), std::stoi(args.at(1)));
                 break;
             case Commands::recover:
-                p.recover(args.at(0), std::stoi(args.at(1)));
+                playerparty.partyRecover(args.at(0), std::stoi(args.at(1)));
                 break;
             case Commands::hurt:
-                p.hurt(args.at(0), std::stoi(args.at(1)));
+                playerparty.partyHurt(args.at(0), std::stoi(args.at(1)));
                 break;
             case Commands::cast:
-                p.cast(args.at(0), std::stoi(args.at(1)));
+                enemy->hurt(
+                    playerparty.partyCast(args.at(0), std::stoi(args.at(1))));
                 break;
             case Commands::attack:
-                p.attack();
-                break;
-            case Commands::exit:
-                return false;
+                enemy->hurt(playerparty.partyAttack());
                 break;
             case Commands::unknown:
                 std::cout << "Invalid input." << std::endl;
-                break;
+                return false;
             default:
                 std::cout << "Invalid input." << std::endl;
-                break;
+                return false;
         }
     } catch (const std::out_of_range& e) {
         std::cout << "Invalid input." << std::endl;

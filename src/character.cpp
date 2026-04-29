@@ -2,26 +2,26 @@
 
 #include <iostream>
 #include <string>
-#include<<memory>
+#include<memory>
 #include "weapon.h"
 
 // constructors/destructors
 Character::Character()
     : name("untitiled"), hp(100), mp(100), atk(0), weapon(nullptr) {};
 Character::Character(std::string name, int hp, int mp, int atk,
-                     Weapon& weapon) {
+                     std::string weaponName) {
     setINFO(name, hp, mp, atk);
-    this->weapon->std::make_unique(weapon);
+    this->weapon=std::make_unique<Weapon>(weaponName);
 }
 Character::~Character() {}
 
 // character status
 void Character::getINFO() const {
-    std::cout << "Character:" << getName() << std::endl;
-    std::cout << "HP:" << getHP() << std::endl;
-    std::cout << "MP:" << getMP() << std::endl;
-    std::cout << "ATK:" << getATK() << std::endl;
-    std::cout << "Weapon:" << this->weapon->getName() << std::endl;
+    std::cout << "-Character:" << getName() << std::endl;
+    std::cout << "--HP:" << getHP() << std::endl;
+    std::cout << "--MP:" << getMP() << std::endl;
+    std::cout << "--ATK:" << getATK() << std::endl;
+    std::cout << "--Weapon:" << this->weapon->getName() << std::endl;
 }
 void Character::setINFO(std::string name, int hp, int mp, int atk) {
     setName(name);
@@ -65,57 +65,56 @@ int Character::setATK(int atk) {
 // basic operations
 void Character::heal(int hp) {
     if (hp >= 0) setHP(getHP() + hp);
-    std::cout << this->getName()<< " HP:" << getHP() << std::endl;
+    std::cout <<"-"<< this->getName()<< " HP:" << getHP() << std::endl;
 }
 
 void Character::recover(int mp) {
     if (!hasHP()) {
-        std::cout << this->getName()<<" is dead." << std::endl;
+        std::cout <<"-"<< this->getName()<<" is dead." << std::endl;
         return;
     } else {
         if (mp >= 0) setMP(getMP() + mp);
-        std::cout << this->getName()<< " MP:" << getMP() << std::endl;
+        std::cout <<"-"<< this->getName()<< " MP:" << getMP() << std::endl;
     }
 }
 
 void Character::hurt(int hp) {
     if (!hasHP()) {
-        std::cout << this->getName()<<" is dead." << std::endl;
+        std::cout <<"-"<< this->getName()<<" is dead." << std::endl;
         return;
     }
 
     if (hp >= 0) setHP(getHP() - hp);
 
     if (!hasHP()) {
-        std::cout << this->getName()<<" is dead." << std::endl;
+        std::cout <<"-"<< this->getName()<<" is dead." << std::endl;
     } else {
-        std::cout << this->getName()<< " HP:" << getHP() << std::endl;
+        std::cout <<"-"<< this->getName()<< " HP:" << getHP() << std::endl;
     }
 }
 
 // attacks
 int Character::cast(int mp) {
     if (!hasHP()) {
-        std::cout << this->getName()<<" is dead." << std::endl;
+        std::cout <<"-"<< this->getName()<<" is dead." << std::endl;
         return 0;
     }
 
     if (getMP() < mp) {
-        std::cout << this->getName()<< " not enough MP." << std::endl;
+        std::cout <<"-"<< this->getName()<< " not enough MP." << std::endl;
         return 0;
     }
 
     if (mp >= 0) setMP(getMP() - mp);
-    std::cout << this->getName()<< " MP:" << getMP() << std::endl;
+    std::cout <<"-"<< this->getName()<< " MP:" << getMP() << std::endl;
     return getMP() * 0.5;
 }
 int Character::attack() {
     if (!hasHP()) {
-        std::cout << this->getName()<<" is dead." << std::endl;
+        std::cout <<"-"<< this->getName()<<" is dead." << std::endl;
         return 0;
     }
-    std::cout << this->getName() << " attacks with "
-              << (this->weapon)->getName() << "!" << std::endl;
-    std::cout << "ATK:" << getATK() << std::endl;
+    std::cout <<"-"<< this->getName() << " attacks with "
+              << (this->weapon)->getName() << "! "<< "ATK:" << getATK() << std::endl;
     return getATK();
 }

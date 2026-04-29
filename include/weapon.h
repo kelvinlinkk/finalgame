@@ -6,7 +6,6 @@ class Weapon{
 private:
     std::string name;    
 public:
-    Weapon();
     Weapon(std::string);
     std::string getName();
 };
