@@ -7,10 +7,7 @@
 #include "character.h"
 
 void Party::getINFO() const {
-    std::cout << "Party name:" << this->partyname << std::endl;
-    warrior->getINFO();
-    fighter->getINFO();
-    mage->getINFO();
+    std::cout << "Party name:" << this->partyname << std::endl<<*warrior<<*fighter<<*mage;
 };
 Party::Party(std::string partyname, std::string warriorname,
              std::string fightername, std::string magename)
@@ -94,3 +91,37 @@ int Party::partyAttack() {
     }
     return atk;
 }
+
+void Party::partyUpgrade(std::string name) {
+    if (name == "all") {
+        for (std::shared_ptr<Character> c : {warrior, fighter, mage}) {
+            ++(*c);
+        }
+    } else {
+        for (std::shared_ptr<Character> c : {warrior, fighter, mage}) {
+            if (name == c->getName()) {
+                ++(*c);
+                return;
+            }
+        }
+        std::cout << "Invalid input." << std::endl;
+    }
+    return;
+};
+
+void Party::partyEquip(std::string name, std::string wname) {
+    if (name == "all") {
+        for (std::shared_ptr<Character> c : {warrior, fighter, mage}) {
+            (*c)+=std::unique_ptr<Weapon>(new Weapon(wname));
+        }
+    } else {
+        for (std::shared_ptr<Character> c : {warrior, fighter, mage}) {
+            if (name == c->getName()) {
+                (*c)+=std::unique_ptr<Weapon>(new Weapon(wname));
+                return;
+            }
+        }
+        std::cout << "Invalid input." << std::endl;
+    }
+    return;
+};

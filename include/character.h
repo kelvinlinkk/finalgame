@@ -43,5 +43,10 @@ class Character {
     // attacks
     int cast(int);
     int attack();
+
+    // operator overload
+    friend std::ostream& operator<<(std::ostream&, const Character&);
+    Character& operator++();
+    Character& operator+=(std::unique_ptr<Weapon>);
 };
 #endif

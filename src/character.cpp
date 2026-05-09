@@ -17,13 +17,10 @@ Character::~Character() {}
 
 // character status
 void Character::getINFO() const {
-    std::cout << "-Character:" << getName() << std::endl;
     if(hasHP()){   
-    std::cout << "--HP:" << getHP() << std::endl;
-    std::cout << "--MP:" << getMP() << std::endl;
-    std::cout << "--ATK:" << getATK() << std::endl;
-    std::cout << "--Weapon:" << this->weapon->getName() << std::endl;
+    std::cout << *this;
     }else{
+        std::cout << "-Character:" << getName() << std::endl;
         std::cout <<"--"<< getName()<<" is dead."<<std::endl;
     }
 }
@@ -122,3 +119,27 @@ int Character::attack() {
               << (this->weapon)->getName() << "! "<< "ATK:" << getATK() << std::endl;
     return getATK();
 }
+
+std::ostream& operator<<(std::ostream& out, const Character& c){
+    out << "-Character:" << c.getName() << std::endl;
+    if(c.hasHP()){   
+        out<< "--HP:" << c.getHP() << std::endl;
+        //out << "--MP:" << c.getMP() << std::endl;
+        out << "--ATK:" << c.getATK() << std::endl;
+        out << "--Weapon:" << c.weapon->getName()<<"(LV."<<c.weapon->getlvl()<<")" << std::endl;
+    }else{
+        out <<"--"<< c.getName()<<" is dead."<<std::endl;
+    }
+    return out;
+}
+Character& Character::operator++(){
+    setHP(getHP() + 20);
+    setATK(getATK() + 10);
+    this->weapon->upgrade();
+    return *this;
+};
+Character& Character::operator+=(std::unique_ptr<Weapon> newW){
+    if(this->weapon!=newW)
+        this->weapon=std::move(newW);
+    return *this;
+};

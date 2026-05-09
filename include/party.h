@@ -19,5 +19,7 @@ class Party {
     void partyRecover(std::string, int);
     int partyCast(std::string, int);
     int partyAttack();
+    void partyUpgrade(std::string);
+    void partyEquip(std::string, std::string) ;
 };
 #endif
