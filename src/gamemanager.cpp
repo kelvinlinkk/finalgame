@@ -1,3 +1,5 @@
+#include "gamemanager.h"
+
 #include <iostream>
 #include <map>
 #include <sstream>
@@ -5,7 +7,6 @@
 #include <vector>
 
 #include "character.h"
-#include "gamemanager.h"
 #include "weapon.h"
 
 // command list;
@@ -35,7 +36,7 @@ gameManager::gameManager(std::string partyname, std::string warriorname,
     : playerparty(partyname, warriorname, fightername, magename),
       isGameover(true) {
     this->enemy =
-        std::make_unique<Character>("Slime", 120, 10, 40, "sticky ball");
+        std::make_unique<Monster>("Slime", 120, 10, 40, "sticky ball");
 }
 
 // game flow
@@ -73,13 +74,18 @@ void gameManager::startGame() {
 
 void gameManager::playerTurn() {
     std::string cmd = "";
-    std::cout << "Input your action:" << std::endl;
+    std::cout << "Input party action:" << std::endl;
     while (getline(std::cin, cmd)) {
-        if (handlingCommand(cmd)) {
-            return;
+        if (!cmd.empty() && cmd.back() == '\r') {
+            cmd.pop_back();
         }
-        std::cout << "Input your action:" << std::endl;
+
+        if (cmd != "") {
+            if (handlingCommand(cmd)) break;
+            std::cout << "Input party action:" << std::endl;
+        }
     }
+    playerparty.memberaction(enemy);
 }
 
 bool gameManager::handlingCommand(std::string input) {
@@ -111,9 +117,11 @@ bool gameManager::handlingCommand(std::string input) {
             case Commands::hurt:
                 playerparty.partyHurt(args.at(0), std::stoi(args.at(1)));
                 break;
-            case Commands::cast:
-                playerparty.partyCast(args.at(0), std::stoi(args.at(1)));
+            case Commands::cast: {
+                int c = playerparty.partyCast(args.at(0));
+                if (c != 0) enemy->hurt(c);
                 break;
+            }
             case Commands::attack:
                 enemy->hurt(playerparty.partyAttack());
                 break;
@@ -122,7 +130,7 @@ bool gameManager::handlingCommand(std::string input) {
                 break;
             case Commands::equip:
                 playerparty.partyEquip(args.at(0), args.at(1));
-                return false;
+                return true;
             case Commands::unknown:
                 std::cout << "Invalid input." << std::endl;
                 return false;

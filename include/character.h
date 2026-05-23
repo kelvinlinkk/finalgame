@@ -5,7 +5,7 @@
 #include<memory>
 #include "weapon.h"
 class Character {
-   private:
+   protected:
     int hp;
     int mp;
     int atk;
@@ -15,9 +15,8 @@ class Character {
    public:
     Character();
     Character(std::string, int, int, int, std::string);
-    ~Character();
+    /*virtual*/ ~Character();
     // character status
-    void INFO() const;
     void getINFO() const;
     void setINFO(std::string, int, int, int);
     bool hasHP() const;
@@ -36,17 +35,51 @@ class Character {
     int setATK(int);
 
     // basic operations
+    virtual void action(std::shared_ptr<Character>)=0;
+
     void heal(int);
     void recover(int);
     void hurt(int);
-
-    // attacks
-    int cast(int);
+    int cast();
     int attack();
 
     // operator overload
     friend std::ostream& operator<<(std::ostream&, const Character&);
     Character& operator++();
     Character& operator+=(std::unique_ptr<Weapon>);
+};
+
+class Hero:public Character {
+   public:
+    Hero();
+    Hero(std::string, int, int, int, std::string);
+    void action(std::shared_ptr<Character> target) override;
+    ~Hero();
+    int cast();
+};
+
+
+class Warrior:public Character {
+   public:
+    Warrior();
+    Warrior(std::string, int, int, int, std::string);
+    void action(std::shared_ptr<Character> target) override;
+    ~Warrior();
+    int cast() ;
+};
+class Mage:public Character {
+   public:
+    Mage();
+    Mage(std::string, int, int, int, std::string);
+    void action(std::shared_ptr<Character> target) override;
+    ~Mage();
+    int cast() ;
+};
+class Monster:public Character {
+   public:
+    Monster();
+    Monster(std::string, int, int, int, std::string);
+    void action(std::shared_ptr<Character> target) override{};
+    ~Monster();
 };
 #endif
